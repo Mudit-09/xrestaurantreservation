@@ -45,11 +45,13 @@ function Calendar({ selectedDate, onDateSelect }) {
                 month: "long",
               })}
             >
-              <span>
-                {date.toLocaleDateString("en-IN", {
-                  weekday: "short",
-                })}
-              </span>
+              <p>
+  {index === 0
+    ? "Today"
+    : date.toLocaleDateString("en-IN", {
+        weekday: "short",
+      })}
+</p>
 
               <strong>{date.getDate()}</strong>
 

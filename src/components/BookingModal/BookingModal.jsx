@@ -7,7 +7,15 @@ import TimeSlotPicker from "../Calendar/TimeSlotPicker/TimeSlotPicker";
 function BookingModal({ restaurant, onClose, onBookingComplete }) {
   const navigate = useNavigate();
 
-  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState(() => {
+    const today = new Date();
+  
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+  
+    return `${year}-${month}-${day}`;
+  });
   const [selectedTime, setSelectedTime] = useState("");
   const [guests, setGuests] = useState("2");
   const [error, setError] = useState("");

@@ -8,7 +8,7 @@ import "./../App.css";
 const API = "https://restaurantdata.onrender.com";
 
 function Search() {
-  const [states, setStates] = useState(["Texas"]);
+  const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
@@ -28,7 +28,7 @@ function Search() {
     return item?.name || item?.state || item?.city || "";
   };
 
-  // Load states, keeping Texas available for the assessment.
+  // Load states from the API.
   useEffect(() => {
     const controller = new AbortController();
 
@@ -45,22 +45,15 @@ function Search() {
         }
 
         const data = await response.json();
-        const items = Array.isArray(data)
-          ? data
-          : data.states || [];
-
+        const items = Array.isArray(data) ? data : data.states || [];
         const names = items.map(getName).filter(Boolean);
-
-        if (!names.includes("Texas")) {
-          names.push("Texas");
-        }
 
         setStates(names);
         setError("");
       } catch (err) {
         if (err.name !== "AbortError") {
-          setStates(["Texas"]);
-          setError("");
+          setStates([]);
+          setError("Could not load states. Please try again.");
         }
       } finally {
         if (!controller.signal.aborted) {
@@ -74,7 +67,7 @@ function Search() {
     return () => controller.abort();
   }, []);
 
-  // Load cities when a state is selected.
+  // Load cities whenever the selected state changes.
   useEffect(() => {
     if (!selectedState) {
       setCities([]);
@@ -86,12 +79,12 @@ function Search() {
     const controller = new AbortController();
 
     async function fetchCities() {
-      try {
-        setLoadingCities(true);
-        setCities([]);
-        setSelectedCity("");
-        setError("");
+      setLoadingCities(true);
+      setCities([]);
+      setSelectedCity("");
+      setError("");
 
+      try {
         const response = await fetch(
           `${API}/cities/${encodeURIComponent(selectedState)}`,
           { signal: controller.signal }
@@ -102,24 +95,16 @@ function Search() {
         }
 
         const data = await response.json();
-        const items = Array.isArray(data)
-          ? data
-          : data.cities || [];
-
+        const items = Array.isArray(data) ? data : data.cities || [];
         const names = items.map(getName).filter(Boolean);
 
-        if (
-          selectedState === "Texas" &&
-          !names.includes("Austin")
-        ) {
-          names.push("Austin");
+        if (!controller.signal.aborted) {
+          setCities(names);
         }
-
-        setCities(names);
       } catch (err) {
         if (err.name !== "AbortError") {
-          setCities(selectedState === "Texas" ? ["Austin"] : []);
-          setError("");
+          setCities([]);
+          setError("Could not load cities. Please try again.");
         }
       } finally {
         if (!controller.signal.aborted) {
@@ -136,6 +121,7 @@ function Search() {
   const handleStateSelect = (name) => {
     setSelectedState(name);
     setSelectedCity("");
+    setCities([]);
     setRestaurants([]);
     setSearched(false);
     setError("");
@@ -201,6 +187,7 @@ function Search() {
           <h1>Find Restaurants</h1>
 
           <form onSubmit={handleSearch}>
+            {/* State dropdown */}
             <div
               id="state"
               className="custom-location-dropdown"
@@ -221,26 +208,7 @@ function Search() {
               </button>
 
               {stateOpen && (
-                <ul
-                className="location-dropdown-options"
-                style={{
-                  display: "block",
-                  visibility: "visible",
-                  opacity: 1,
-                  position: "absolute",
-                  top: "100%",
-                  left: 0,
-                  right: 0,
-                  zIndex: 99999,
-                  backgroundColor: "#fff",
-                  maxHeight: "220px",
-                  overflowY: "auto",
-                  listStyle: "none",
-                  margin: 0,
-                  padding: 0,
-                  border: "1px solid #ccc",
-                }}
-              >
+                <ul className="location-dropdown-options">
                   {states.map((name) => (
                     <li
                       key={name}
@@ -252,16 +220,18 @@ function Search() {
                       {name}
                     </li>
                   ))}
+                  {loadingStates && <li>Loading states...</li>}
                 </ul>
               )}
             </div>
 
+            {/* City dropdown */}
             <div
               id="city"
               className="custom-location-dropdown"
               onClick={() => {
-                if (selectedState && !loadingCities) {
-                  setCityOpen((open) => !open);
+                if (selectedState) {
+                  setCityOpen(true);
                   setStateOpen(false);
                 }
               }}
@@ -271,14 +241,14 @@ function Search() {
               <button
                 type="button"
                 className="location-dropdown-trigger"
-                disabled={!selectedState || loadingCities}
+                disabled={!selectedState}
                 aria-expanded={cityOpen}
               >
                 {selectedCity ||
                   (loadingCities ? "Loading cities..." : "Select City")}
               </button>
 
-              {cityOpen && (
+              {cityOpen && selectedState && (
                 <ul className="location-dropdown-options">
                   {cities.map((name) => (
                     <li
@@ -291,6 +261,8 @@ function Search() {
                       {name}
                     </li>
                   ))}
+
+                  {loadingCities && <li>Loading cities...</li>}
                 </ul>
               )}
             </div>

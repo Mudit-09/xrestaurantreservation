@@ -8,7 +8,7 @@ import "./../App.css";
 const API = "https://restaurantdata.onrender.com";
 
 function Search() {
-  const [states, setStates] = useState([]);
+  const [states, setStates] = useState(["Texas"]);
   const [cities, setCities] = useState([]);
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
@@ -205,10 +205,8 @@ function Search() {
               id="state"
               className="custom-location-dropdown"
               onClick={() => {
-                if (!loadingStates) {
-                  setStateOpen((open) => !open);
-                  setCityOpen(false);
-                }
+                setStateOpen(true);
+                setCityOpen(false);
               }}
             >
               <label>State</label>
@@ -223,7 +221,26 @@ function Search() {
               </button>
 
               {stateOpen && (
-                <ul className="location-dropdown-options">
+                <ul
+                className="location-dropdown-options"
+                style={{
+                  display: "block",
+                  visibility: "visible",
+                  opacity: 1,
+                  position: "absolute",
+                  top: "100%",
+                  left: 0,
+                  right: 0,
+                  zIndex: 99999,
+                  backgroundColor: "#fff",
+                  maxHeight: "220px",
+                  overflowY: "auto",
+                  listStyle: "none",
+                  margin: 0,
+                  padding: 0,
+                  border: "1px solid #ccc",
+                }}
+              >
                   {states.map((name) => (
                     <li
                       key={name}

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar/NavBar";
 import Footer from "../components/Footer/Footer";
@@ -12,7 +11,7 @@ const TIME_SLOTS = [
 
 function MyBookings() {
   const [bookings, setBookings] = useState([]);
-  const [editingBooking, setEditingBooking] = useState(null);
+  const [editingIndex, setEditingIndex] = useState(null);
   const [editDate, setEditDate] = useState("");
   const [editTime, setEditTime] = useState("");
   const [editGuests, setEditGuests] = useState("2");
@@ -39,29 +38,53 @@ function MyBookings() {
     }
   };
 
-  const cancelBooking = (bookingId) => {
-    const confirmed = window.confirm(
-      "Are you sure you want to cancel this reservation?"
-    );
+  const formatDate = (value) => {
+    if (!value) {
+      return "Date not available";
+    }
 
-    if (!confirmed) {
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+      return value;
+    }
+
+    return date.toLocaleDateString("en-IN", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      timeZone: "UTC",
+    });
+  };
+
+  const cancelBooking = (index) => {
+    if (!window.confirm("Are you sure you want to cancel this reservation?")) {
       return;
     }
 
-    const updatedBookings = bookings.filter(
-      (booking) => booking.id !== bookingId
-    );
+    const updatedBookings = bookings.filter((_, i) => i !== index);
 
     if (persistBookings(updatedBookings)) {
       setError("");
     }
   };
 
-  const openEditor = (booking) => {
-    setEditingBooking(booking);
-    setEditDate(booking.date || "");
+  const openEditor = (booking, index) => {
+    const rawDate = booking.date || booking.bookingDate || "";
+    const parsedDate = rawDate ? new Date(rawDate) : null;
+
+    setEditingIndex(index);
+    setEditDate(
+      parsedDate && !Number.isNaN(parsedDate.getTime())
+        ? [
+            parsedDate.getFullYear(),
+            String(parsedDate.getMonth() + 1).padStart(2, "0"),
+            String(parsedDate.getDate()).padStart(2, "0"),
+          ].join("-")
+        : ""
+    );
     setEditTime(
-      booking.time || booking.reservationTime || ""
+      booking.time || booking.reservationTime || booking.bookingTime || ""
     );
     setEditGuests(String(booking.guests || 2));
     setError("");
@@ -70,7 +93,7 @@ function MyBookings() {
   const saveChanges = (event) => {
     event.preventDefault();
 
-    if (!editDate || !editTime) {
+    if (editingIndex === null || !editDate || !editTime) {
       setError("Please select a date and time.");
       return;
     }
@@ -91,8 +114,8 @@ function MyBookings() {
       return;
     }
 
-    const updatedBookings = bookings.map((booking) =>
-      booking.id === editingBooking.id
+    const updatedBookings = bookings.map((booking, index) =>
+      index === editingIndex
         ? {
             ...booking,
             date: editDate,
@@ -105,27 +128,9 @@ function MyBookings() {
     );
 
     if (persistBookings(updatedBookings)) {
-      setEditingBooking(null);
+      setEditingIndex(null);
       setError("");
     }
-  };
-
-  const formatDate = (dateString) => {
-    if (!dateString) {
-      return "Date not available";
-    }
-
-    const date = new Date(`${dateString}T00:00:00`);
-
-    if (Number.isNaN(date.getTime())) {
-      return dateString;
-    }
-
-    return date.toLocaleDateString("en-IN", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
   };
 
   return (
@@ -161,19 +166,22 @@ function MyBookings() {
           <section className="bookings-list">
             {bookings.map((booking, index) => {
               const restaurantName =
-                booking.restaurantName ||
-                booking.name ||
-                "Restaurant";
+                booking.restaurantName || booking.name || "Restaurant";
 
-              const bookingId =
-                booking.id || `legacy-booking-${index}`;
+              const bookingDate = booking.date || booking.bookingDate;
+              const bookingTime =
+                booking.time ||
+                booking.reservationTime ||
+                booking.bookingTime;
 
               return (
-                <article className="booking-card" key={bookingId}>
+                <article
+                  className="booking-card"
+                  key={booking.id || `legacy-booking-${index}`}
+                >
                   <div className="booking-card-header">
                     <div>
-                      <h2>{restaurantName}</h2>
-
+                      <h3>{restaurantName}</h3>
                       <p className="booking-status">
                         {booking.status || "confirmed"}
                       </p>
@@ -192,14 +200,11 @@ function MyBookings() {
 
                   <div className="booking-information">
                     <p>
-                      <strong>Date:</strong> {formatDate(booking.date)}
+                      <strong>Date:</strong> {formatDate(bookingDate)}
                     </p>
 
                     <p>
-                      <strong>Time:</strong>{" "}
-                      {booking.time ||
-                        booking.reservationTime ||
-                        "Not specified"}
+                      <strong>Time:</strong> {bookingTime || "Not specified"}
                     </p>
 
                     <p>
@@ -216,7 +221,7 @@ function MyBookings() {
                   <div className="booking-actions">
                     <button
                       type="button"
-                      onClick={() => openEditor(booking)}
+                      onClick={() => openEditor(booking, index)}
                     >
                       Edit Booking
                     </button>
@@ -224,7 +229,7 @@ function MyBookings() {
                     <button
                       type="button"
                       className="cancel-booking-button"
-                      onClick={() => cancelBooking(booking.id)}
+                      onClick={() => cancelBooking(index)}
                     >
                       Cancel Booking
                     </button>
@@ -235,7 +240,7 @@ function MyBookings() {
           </section>
         )}
 
-        {editingBooking && (
+        {editingIndex !== null && (
           <div className="booking-overlay">
             <section
               className="booking-dialog"
@@ -248,7 +253,7 @@ function MyBookings() {
                 className="booking-close"
                 aria-label="Close edit form"
                 onClick={() => {
-                  setEditingBooking(null);
+                  setEditingIndex(null);
                   setError("");
                 }}
               >
@@ -260,32 +265,10 @@ function MyBookings() {
               <form onSubmit={saveChanges}>
                 <div className="edit-booking-field">
                   <label htmlFor="edit-date">Reservation Date</label>
-
                   <input
                     id="edit-date"
                     type="date"
                     value={editDate}
-                    min={(() => {
-                      const date = new Date();
-                      const year = date.getFullYear();
-                      const month = String(
-                        date.getMonth() + 1
-                      ).padStart(2, "0");
-                      const day = String(date.getDate()).padStart(2, "0");
-
-                      return `${year}-${month}-${day}`;
-                    })()}
-                    max={(() => {
-                      const date = new Date();
-                      date.setDate(date.getDate() + 6);
-                      const year = date.getFullYear();
-                      const month = String(
-                        date.getMonth() + 1
-                      ).padStart(2, "0");
-                      const day = String(date.getDate()).padStart(2, "0");
-
-                      return `${year}-${month}-${day}`;
-                    })()}
                     onChange={(event) => setEditDate(event.target.value)}
                     required
                   />
@@ -293,7 +276,6 @@ function MyBookings() {
 
                 <div className="edit-booking-field">
                   <label htmlFor="edit-time">Reservation Time</label>
-
                   <select
                     id="edit-time"
                     value={editTime}
@@ -301,7 +283,6 @@ function MyBookings() {
                     required
                   >
                     <option value="">Select a time</option>
-
                     {TIME_SLOTS.map((slot) => (
                       <option key={slot.label} value={slot.label}>
                         {slot.label} ({slot.time})
@@ -312,7 +293,6 @@ function MyBookings() {
 
                 <div className="edit-booking-field">
                   <label htmlFor="edit-guests">Number of Guests</label>
-
                   <select
                     id="edit-guests"
                     value={editGuests}

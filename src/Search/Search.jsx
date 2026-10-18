@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar/NavBar";
 import Footer from "../components/Footer/Footer";
@@ -13,6 +12,10 @@ function Search() {
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [restaurants, setRestaurants] = useState([]);
+
+  const [stateOpen, setStateOpen] = useState(false);
+  const [cityOpen, setCityOpen] = useState(false);
+
   const [searched, setSearched] = useState(false);
   const [loadingStates, setLoadingStates] = useState(true);
   const [loadingCities, setLoadingCities] = useState(false);
@@ -33,6 +36,7 @@ function Search() {
     async function fetchStates() {
       try {
         setLoadingStates(true);
+
         const response = await fetch(`${API}/states`, {
           signal: controller.signal,
         });
@@ -45,6 +49,7 @@ function Search() {
         const items = Array.isArray(data) ? data : data.states || [];
 
         setStates(items);
+        setError("");
       } catch (err) {
         if (err.name !== "AbortError") {
           setError("Could not load states. Please refresh and try again.");
@@ -106,6 +111,24 @@ function Search() {
     return () => controller.abort();
   }, [selectedState]);
 
+  const handleStateSelect = (name) => {
+    setSelectedState(name);
+    setSelectedCity("");
+    setRestaurants([]);
+    setSearched(false);
+    setError("");
+    setStateOpen(false);
+    setCityOpen(false);
+  };
+
+  const handleCitySelect = (name) => {
+    setSelectedCity(name);
+    setRestaurants([]);
+    setSearched(false);
+    setError("");
+    setCityOpen(false);
+  };
+
   const handleSearch = async (event) => {
     event.preventDefault();
 
@@ -139,7 +162,7 @@ function Search() {
       setRestaurants(items);
     } catch {
       setError(
-        "Could not load restaurants. The server may take 50–60 seconds to respond. Please try again."
+        "Could not load restaurants. Please try again."
       );
     } finally {
       setLoadingRestaurants(false);
@@ -155,66 +178,89 @@ function Search() {
           <h1>Find Restaurants</h1>
 
           <form onSubmit={handleSearch}>
-            <div id="state">
-              <label htmlFor="state-select">State</label>
+            <div
+              id="state"
+              className="custom-location-dropdown"
+              onClick={() => {
+                if (!loadingStates) {
+                  setStateOpen((open) => !open);
+                  setCityOpen(false);
+                }
+              }}
+            >
+              <label>State</label>
 
-              <select
-                id="state-select"
-                value={selectedState}
-                onChange={(event) => {
-                  setSelectedState(event.target.value);
-                  setSearched(false);
-                  setRestaurants([]);
-                  setError("");
-                }}
-                disabled={loadingStates}
-                required
+              <button
+                type="button"
+                className="location-dropdown-trigger"
+                aria-expanded={stateOpen}
               >
-                <option value="">
-                  {loadingStates ? "Loading states..." : "Select State"}
-                </option>
+                {selectedState ||
+                  (loadingStates ? "Loading states..." : "Select State")}
+              </button>
 
-                {states.map((item, index) => {
-                  const name = getName(item);
+              {stateOpen && (
+                <ul className="location-dropdown-options">
+                  {states.map((item, index) => {
+                    const name = getName(item);
 
-                  return (
-                    <option key={`${name}-${index}`} value={name}>
-                      {name}
-                    </option>
-                  );
-                })}
-              </select>
+                    return (
+                      <li
+                        key={`${name}-${index}`}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          handleStateSelect(name);
+                        }}
+                      >
+                        {name}
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
             </div>
 
-            <div id="city">
-              <label htmlFor="city-select">City</label>
+            <div
+              id="city"
+              className="custom-location-dropdown"
+              onClick={() => {
+                if (selectedState && !loadingCities) {
+                  setCityOpen((open) => !open);
+                  setStateOpen(false);
+                }
+              }}
+            >
+              <label>City</label>
 
-              <select
-                id="city-select"
-                value={selectedCity}
-                onChange={(event) => {
-                  setSelectedCity(event.target.value);
-                  setSearched(false);
-                  setRestaurants([]);
-                  setError("");
-                }}
+              <button
+                type="button"
+                className="location-dropdown-trigger"
                 disabled={!selectedState || loadingCities}
-                required
+                aria-expanded={cityOpen}
               >
-                <option value="">
-                  {loadingCities ? "Loading cities..." : "Select City"}
-                </option>
+                {selectedCity ||
+                  (loadingCities ? "Loading cities..." : "Select City")}
+              </button>
 
-                {cities.map((item, index) => {
-                  const name = getName(item);
+              {cityOpen && (
+                <ul className="location-dropdown-options">
+                  {cities.map((item, index) => {
+                    const name = getName(item);
 
-                  return (
-                    <option key={`${name}-${index}`} value={name}>
-                      {name}
-                    </option>
-                  );
-                })}
-              </select>
+                    return (
+                      <li
+                        key={`${name}-${index}`}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          handleCitySelect(name);
+                        }}
+                      >
+                        {name}
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
             </div>
 
             <button
@@ -237,9 +283,9 @@ function Search() {
           {loadingRestaurants && <p>Loading restaurants...</p>}
 
           {searched && !loadingRestaurants && !error && (
-            <h2>
+            <h1>
               {restaurants.length} restaurants available in {selectedCity}
-            </h2>
+            </h1>
           )}
 
           {searched &&

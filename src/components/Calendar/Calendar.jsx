@@ -24,7 +24,7 @@ function Calendar({ selectedDate, onDateSelect }) {
       <h3>Select a Date</h3>
 
       <div className="calendar-dates">
-        {dates.map((date) => {
+      {dates.map((date, index) => {
           const dateValue = formatDate(date);
           const isSelected = selectedDate === dateValue;
 

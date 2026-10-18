@@ -1,0 +1,125 @@
+
+.families-section {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    align-items: center;
+    gap: 48px;
+    width: min(1200px, 92%);
+    margin: 72px auto;
+    padding: 44px;
+    border-radius: 20px;
+    background: #fff7f2;
+  }
+  
+  .families-intro {
+    max-width: 440px;
+  }
+  
+  .families-eyebrow {
+    margin: 0 0 12px;
+    color: #e85d3f;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.7px;
+  }
+  
+  .families-intro h2 {
+    margin: 0 0 16px;
+    color: #292929;
+    font-size: clamp(26px, 3.5vw, 36px);
+    line-height: 1.35;
+  }
+  
+  .families-intro > p:not(.families-eyebrow) {
+    margin: 0 0 24px;
+    color: #6b7280;
+    font-size: 14px;
+    line-height: 1.9;
+  }
+  
+  .families-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    padding: 12px 20px;
+    border-radius: 7px;
+    background: #e85d3f;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+  }
+  
+  .families-button:hover {
+    background: #c94a30;
+    color: #fff;
+  }
+  
+  .families-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+  
+  .family-card {
+    padding: 24px 20px;
+    border: 1px solid #f2e6df;
+    border-radius: 12px;
+    background: #fff;
+  }
+  
+  .family-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+    border-radius: 12px;
+    background: #ffede5;
+    font-size: 24px;
+  }
+  
+  .family-card h3 {
+    margin: 0 0 10px;
+    color: #292929;
+    font-size: 17px;
+  }
+  
+  .family-card p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+  
+  @media (max-width: 900px) {
+    .families-section {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding: 32px;
+    }
+  
+    .families-intro {
+      max-width: 650px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .families-section {
+      width: 92%;
+      margin: 44px auto;
+      padding: 24px 18px;
+    }
+  
+    .families-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .family-card {
+      padding: 20px;
+    }
+  }
+  

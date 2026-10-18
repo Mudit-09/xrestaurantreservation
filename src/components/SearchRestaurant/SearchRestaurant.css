@@ -1,0 +1,57 @@
+
+.search-restaurant-section {
+    width: min(1200px, 92%);
+    margin: 48px auto;
+  }
+  
+  .search-restaurant-heading {
+    margin-bottom: 28px;
+  }
+  
+  .search-restaurant-eyebrow {
+    margin-bottom: 8px;
+    color: #e85d3f;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+  }
+  
+  .search-restaurant-heading h1 {
+    margin: 0 0 12px;
+    color: #292929;
+  }
+  
+  .search-restaurant-heading > p:last-child {
+    color: #6b7280;
+    line-height: 1.7;
+  }
+  
+  .search-restaurant-error {
+    margin-top: 18px;
+    color: #b42318;
+  }
+  
+  .search-restaurant-message {
+    margin-top: 24px;
+    color: #6b7280;
+  }
+  
+  .search-restaurant-results {
+    margin-top: 36px;
+  }
+  
+  .search-restaurant-results h2 {
+    margin-bottom: 24px;
+    color: #292929;
+  }
+  
+  @media (max-width: 600px) {
+    .search-restaurant-section {
+      margin: 32px auto;
+    }
+  
+    .search-restaurant-results {
+      margin-top: 28px;
+    }
+  }
+  

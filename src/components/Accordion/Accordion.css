@@ -1,0 +1,55 @@
+
+.restaurant-accordion {
+    width: 100%;
+    border-top: 1px solid #e5e7eb;
+  }
+  
+  .accordion-item {
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .accordion-heading {
+    margin: 0;
+    font-size: 16px;
+  }
+  
+  .accordion-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    padding: 20px 4px;
+    border: 0;
+    background: transparent;
+    color: #292929;
+    text-align: left;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  
+  .accordion-trigger:hover {
+    color: #e85d3f;
+  }
+  
+  .accordion-indicator {
+    flex-shrink: 0;
+    color: #e85d3f;
+    font-size: 24px;
+    line-height: 1;
+  }
+  
+  .accordion-content {
+    padding: 0 4px 20px;
+    color: #6b7280;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+  
+  @media (max-width: 480px) {
+    .accordion-trigger {
+      padding: 16px 2px;
+      font-size: 14px;
+    }
+  }
+  

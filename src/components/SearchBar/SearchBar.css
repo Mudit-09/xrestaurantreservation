@@ -1,0 +1,62 @@
+
+.restaurant-search-bar {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
+    align-items: end;
+    gap: 16px;
+    width: 100%;
+  }
+  
+  .search-bar-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .search-bar-field label {
+    color: #292929;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  
+  .search-bar-field select {
+    width: 100%;
+    min-height: 46px;
+    padding: 10px 12px;
+    border: 1px solid #d8d8d8;
+    border-radius: 7px;
+    background: #fff;
+    color: #292929;
+  }
+  
+  .search-bar-field select:disabled {
+    background: #f4f4f4;
+    color: #888;
+  }
+  
+  .restaurant-search-bar button {
+    min-height: 46px;
+    padding: 10px 24px;
+    border: 0;
+    border-radius: 7px;
+    background: #e85d3f;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  
+  .restaurant-search-bar button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+  
+  @media (max-width: 600px) {
+    .restaurant-search-bar {
+      grid-template-columns: 1fr;
+    }
+  
+    .restaurant-search-bar button {
+      width: 100%;
+    }
+  }
+  

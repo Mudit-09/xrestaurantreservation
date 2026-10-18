@@ -1,6 +1,93 @@
-/* CRIO_SOLUTION_START_MODULE_ONE */
-.App {
-  font-family: sans-serif;
-  text-align: center;
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+:root {
+  --primary-color: #e85d3f;
+  --primary-hover: #c94a30;
+  --text-color: #292929;
+  --muted-color: #6b7280;
+  --border-color: #e5e7eb;
+  --page-background: #ffffff;
 }
-/* CRIO_SOLUTION_START_MODULE_ONE */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
+}
+
+body {
+  margin: 0;
+  background: var(--page-background);
+  color: var(--text-color);
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+button:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+  overflow-wrap: anywhere;
+}
+
+h1 {
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+  line-height: 1.25;
+}
+
+h2 {
+  font-size: clamp(1.35rem, 3vw, 1.8rem);
+  line-height: 1.3;
+}
+
+h3 {
+  font-size: 1.15rem;
+  line-height: 1.4;
+}
+
+:focus-visible {
+  outline: 3px solid #f4a18e;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

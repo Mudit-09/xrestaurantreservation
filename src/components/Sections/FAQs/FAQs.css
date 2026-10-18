@@ -1,0 +1,118 @@
+
+.faqs-section {
+    width: min(900px, 92%);
+    margin: 72px auto;
+  }
+  
+  .faqs-heading {
+    max-width: 700px;
+    margin: 0 auto 36px;
+    text-align: center;
+  }
+  
+  .faqs-eyebrow {
+    margin: 0 0 10px;
+    color: #e85d3f;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+  }
+  
+  .faqs-heading h2 {
+    margin: 0 0 14px;
+    color: #292929;
+    font-size: clamp(25px, 4vw, 36px);
+    line-height: 1.35;
+  }
+  
+  .faqs-heading > p:last-child {
+    color: #6b7280;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+  
+  .faqs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  
+  .faq-item {
+    overflow: hidden;
+    border: 1px solid #eee6e1;
+    border-radius: 10px;
+    background: #fff;
+    transition: border-color 0.2s ease;
+  }
+  
+  .faq-item:has(.faq-answer) {
+    border-color: #f0b6a6;
+  }
+  
+  .faq-question-heading {
+    margin: 0;
+    font-size: inherit;
+  }
+  
+  .faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    width: 100%;
+    min-height: 64px;
+    padding: 18px 22px;
+    border: none;
+    background: #fff;
+    color: #292929;
+    cursor: pointer;
+    text-align: left;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  
+  .faq-question:hover {
+    background: #fffaf7;
+  }
+  
+  .faq-toggle {
+    display: flex;
+    flex: 0 0 28px;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #ffede5;
+    color: #d84e32;
+    font-size: 21px;
+    font-weight: 400;
+  }
+  
+  .faq-answer {
+    padding: 0 22px 20px;
+  }
+  
+  .faq-answer p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 14px;
+    line-height: 1.9;
+  }
+  
+  @media (max-width: 480px) {
+    .faqs-section {
+      margin: 48px auto;
+    }
+  
+    .faq-question {
+      min-height: 58px;
+      padding: 16px;
+      font-size: 14px;
+    }
+  
+    .faq-answer {
+      padding: 0 16px 18px;
+    }
+  }
+  

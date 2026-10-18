@@ -1,0 +1,78 @@
+
+.sms-form {
+    width: 100%;
+    max-width: 480px;
+  }
+  
+  .sms-form > label {
+    display: block;
+    margin-bottom: 8px;
+    color: #292929;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  
+  .sms-form-controls {
+    display: flex;
+    align-items: stretch;
+    gap: 10px;
+  }
+  
+  .sms-form-controls input {
+    flex: 1;
+    min-width: 0;
+    min-height: 46px;
+    padding: 11px 14px;
+    border: 1px solid #dedede;
+    border-radius: 7px;
+    background: #fff;
+    color: #292929;
+    font-size: 14px;
+  }
+  
+  .sms-form-controls input:focus {
+    border-color: #e85d3f;
+    outline: 2px solid rgb(232 93 63 / 15%);
+  }
+  
+  .sms-form-controls button {
+    flex-shrink: 0;
+    min-height: 46px;
+    padding: 11px 20px;
+    border: none;
+    border-radius: 7px;
+    background: #e85d3f;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  
+  .sms-form-controls button:hover {
+    background: #c94a30;
+  }
+  
+  .sms-form-message {
+    margin: 10px 0 0;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  
+  .sms-form-message.error {
+    color: #b42318;
+  }
+  
+  .sms-form-message.success {
+    color: #237a42;
+  }
+  
+  @media (max-width: 420px) {
+    .sms-form-controls {
+      flex-direction: column;
+    }
+  
+    .sms-form-controls button {
+      width: 100%;
+    }
+  }
+  

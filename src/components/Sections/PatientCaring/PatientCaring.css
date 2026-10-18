@@ -1,0 +1,202 @@
+
+.patient-caring-section {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    align-items: center;
+    gap: 48px;
+    width: min(1200px, 92%);
+    margin: 72px auto;
+  }
+  
+  .patient-caring-content {
+    min-width: 0;
+  }
+  
+  .patient-caring-eyebrow {
+    margin: 0 0 12px;
+    color: #e85d3f;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.7px;
+  }
+  
+  .patient-caring-content h2 {
+    margin: 0 0 16px;
+    color: #292929;
+    font-size: clamp(26px, 3.5vw, 36px);
+    line-height: 1.35;
+  }
+  
+  .patient-caring-description {
+    margin: 0 0 28px;
+    color: #6b7280;
+    font-size: 14px;
+    line-height: 1.9;
+  }
+  
+  .patient-caring-benefits {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    margin-bottom: 28px;
+  }
+  
+  .patient-caring-benefit {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .patient-caring-icon {
+    display: flex;
+    flex: 0 0 48px;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: #fff0e9;
+    font-size: 23px;
+  }
+  
+  .patient-caring-benefit h3 {
+    margin: 0 0 6px;
+    color: #292929;
+    font-size: 16px;
+  }
+  
+  .patient-caring-benefit p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+  
+  .patient-caring-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    padding: 12px 20px;
+    border-radius: 7px;
+    background: #e85d3f;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  
+  .patient-caring-button:hover {
+    background: #c94a30;
+    color: #fff;
+  }
+  
+  .patient-caring-visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    border-radius: 22px;
+    background: linear-gradient(145deg, #fff3ec, #ffe1d3);
+  }
+  
+  .patient-caring-plate {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: min(270px, 70%);
+    aspect-ratio: 1;
+    border: 12px solid #fff;
+    border-radius: 50%;
+    background: #f9c7ae;
+    box-shadow: 0 15px 40px rgb(110 58 35 / 12%);
+  }
+  
+  .patient-caring-plate-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 82%;
+    aspect-ratio: 1;
+    border: 3px solid rgb(255 255 255 / 85%);
+    border-radius: 50%;
+    background: #fff0e5;
+  }
+  
+  .patient-caring-plate-inner span {
+    font-size: clamp(65px, 9vw, 100px);
+  }
+  
+  .patient-caring-floating-card {
+    position: absolute;
+    right: 5%;
+    bottom: 12%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 280px;
+    padding: 16px;
+    border: 1px solid #f0e6e1;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 10px 30px rgb(0 0 0 / 8%);
+  }
+  
+  .patient-caring-check {
+    display: flex;
+    flex: 0 0 34px;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #e5f5e9;
+    color: #237a42;
+    font-weight: 700;
+  }
+  
+  .patient-caring-floating-card strong {
+    display: block;
+    color: #292929;
+    font-size: 12px;
+  }
+  
+  .patient-caring-floating-card p {
+    margin: 4px 0 0;
+    color: #6b7280;
+    font-size: 11px;
+  }
+  
+  @media (max-width: 850px) {
+    .patient-caring-section {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  
+    .patient-caring-visual {
+      min-height: 340px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .patient-caring-section {
+      margin: 48px auto;
+    }
+  
+    .patient-caring-benefit {
+      gap: 12px;
+    }
+  
+    .patient-caring-visual {
+      min-height: 290px;
+    }
+  
+    .patient-caring-floating-card {
+      right: 3%;
+      bottom: 7%;
+      max-width: 240px;
+      padding: 12px;
+    }
+  }
+  
